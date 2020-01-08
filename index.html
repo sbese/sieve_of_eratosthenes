@@ -11,18 +11,23 @@
     <title>Решето Эратосфена</title>
   </head>
   <body>
-    <div class="container">
-      <div class="row justify-content-center">
+    <div class="container-sm">
+      <div class="row justify-content-center mb-2">
         <h1>Решето Эратосфена</h1>
         <br>
       </div>
-      <div class="row justify-content-center">
-        <div class="col-10">
-          <table class="table" id="example-1">
-             <tr v-for="row in rows">
-               <td v-for="j in 10" v-if="row!=rows || j<=last_row_ceil">{{j}}</td>
-              </tr>
-          </table>
+      <div id="example-1">
+        <div class="row justify-content-center mb-2">
+          <input v-model="numbers" placeholder="numbers">
+        </div>
+        <div class="row justify-content-center mb-2">
+          <div class="col-10">
+            <table class="table">
+              <tr v-for="row in rows">
+                <td v-for="j in cells_in_row" v-if="row!=rows || j<=last_row_ceil">{{((row-1)*cells_in_row)+j}}</td>
+                </tr>
+            </table>
+          </div>
         </div>
       </div>
     </div>
