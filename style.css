@@ -1,0 +1,11 @@
+
+.d_cell
+{
+    background-color: #dc3545;
+    transition: background-color 1s;
+}
+.g_cell
+{
+    background-color: #28a745;
+    transition: background-color 1s;
+}
