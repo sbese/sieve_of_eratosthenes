@@ -9,6 +9,8 @@ var example1 = new Vue({
     created: function()
     {
         this.numbers = 100;
+        window.addEventListener('resize', this.onResize);
+        this.onResize();
     },
     computed:
     {
@@ -39,12 +41,24 @@ var example1 = new Vue({
     },
     methods:
     {
+        onResize : function()
+        {
+            this.cells_in_row = document.documentElement.clientWidth > 576 ? 10 : 6;
+        },
+
         set_multiple_numbers_false: function(i)
         {
             var k = 1
             for(j=i**2; j<=this.numbers; j+=i, ++k)
             {
-                setTimeout(this.set_false,k*100,j)
+                if(this.prime_numbers[j]===null)
+                {
+                    setTimeout(this.set_false,k*100,j)
+                }
+                else
+                {
+                    --k
+                }
             }    
             return k
         },
