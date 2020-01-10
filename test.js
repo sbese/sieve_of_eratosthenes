@@ -39,29 +39,45 @@ var example1 = new Vue({
     },
     methods:
     {
-        get_prime(i)
+        set_multiple_numbers_false: function(i)
         {
-            if (this.prime_numbers[i] === null)
+            var k = 1
+            for(j=i**2; j<=this.numbers; j+=i, ++k)
+            {
+                setTimeout(this.set_false,k*100,j)
+            }    
+            return k
+        },
+
+        set_false: function(i)
+        {
+            console.log(i)
+            this.prime_numbers.splice(i, 1, false)
+        },
+        get_prime: function(i)
+        {
+            if (this.prime_numbers[i] === null && i**2<=this.numbers)
             {
                 this.prime_numbers.splice(i, 1, true)
-                for(j=i**2; j<=this.numbers; j+=i)
-                {
-                    this.prime_numbers.splice(j, 1, false)
-                }
+                delay_multiplier = this.set_multiple_numbers_false(i)
+            }
+            else if((this.prime_numbers[i] === null))
+            {
+                this.prime_numbers.splice(i, 1, true)
             }
             if(i<=this.numbers)
             {
                 if(this.prime_numbers[i] === true && i**2<=this.numbers)
                 {
-                    setTimeout(this.get_prime,1500, ++i)    
+                    setTimeout(this.get_prime, 100+100*delay_multiplier, ++i)    
                 }
-                else if(this.prime_numbers[i] === true && i<=this.numbers)
+                else if(this.prime_numbers[i] === true)
                 {
-                    setTimeout(this.get_prime,300, ++i)    
+                    setTimeout(this.get_prime, 200, ++i)    
                 }
                 else
                 {
-                    setTimeout(this.get_prime,100, ++i)
+                    setTimeout(this.get_prime, 0, ++i)
                 }
             }
         },
@@ -70,7 +86,7 @@ var example1 = new Vue({
 
             this.prime_numbers.splice(1, 1, false)
             this.prime_numbers.splice(0, 1, false)
-            setTimeout(this.get_prime,1500, 2)
+            setTimeout(this.get_prime,100, 2)
         }
     }
   })
