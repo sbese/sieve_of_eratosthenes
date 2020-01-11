@@ -4,7 +4,8 @@ var example1 = new Vue({
     {
       numbers : 0,
       cells_in_row : 10,
-      prime_numbers : []
+      prime_numbers : [],
+      timers: []
     },
     created: function()
     {
@@ -37,6 +38,11 @@ var example1 = new Vue({
             {
                 this.prime_numbers.push(null)
             }
+            for(let i = 0; i<this.timers.length; i++)
+            {
+                clearTimeout(this.timers[i])
+            }
+            this.timers = []
         }
     },
     methods:
@@ -53,7 +59,7 @@ var example1 = new Vue({
             {
                 if(this.prime_numbers[j]===null)
                 {
-                    setTimeout(this.set_false,k*100,j)
+                    this.timers.push(setTimeout(this.set_false,k*100,j))
                 }
                 else
                 {
@@ -65,7 +71,6 @@ var example1 = new Vue({
 
         set_false: function(i)
         {
-            console.log(i)
             this.prime_numbers.splice(i, 1, false)
         },
         get_prime: function(i)
@@ -83,24 +88,30 @@ var example1 = new Vue({
             {
                 if(this.prime_numbers[i] === true && i**2<=this.numbers)
                 {
-                    setTimeout(this.get_prime, 100+100*delay_multiplier, ++i)    
+                    this.timers.push(setTimeout(this.get_prime, 100+100*delay_multiplier, ++i))    
                 }
                 else if(this.prime_numbers[i] === true)
                 {
-                    setTimeout(this.get_prime, 200, ++i)    
+                    this.timers.push(setTimeout(this.get_prime, 200, ++i))    
                 }
                 else
                 {
-                    setTimeout(this.get_prime, 0, ++i)
+                    this.timers.push(setTimeout(this.get_prime, 0, ++i))
                 }
             }
         },
         get_prime_numbers: function()
         {
-
-            this.prime_numbers.splice(1, 1, false)
-            this.prime_numbers.splice(0, 1, false)
-            setTimeout(this.get_prime,100, 2)
+            if (this.timers.length > 0)
+            {
+                return
+            }
+            else
+            {
+                this.prime_numbers.splice(1, 1, false)
+                this.prime_numbers.splice(0, 1, false)
+                this.timers.push(setTimeout(this.get_prime,100, 2))
+            }
         }
     }
   })
